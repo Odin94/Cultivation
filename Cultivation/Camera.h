@@ -6,6 +6,7 @@ public:
 	~Camera();
 
 	double offsetX, offsetY;
+	double speed = 1.5;
 
 	void moveTo(double tarX, double tarY);
 	void jumpTo(double tarX, double tarY);

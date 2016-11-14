@@ -8,6 +8,8 @@
 #include "Tile.h"
 #include "Actor.h"
 #include "ResourceManager.h"
+#include "GameState.h"
+#include "Interface.h"
 #include <SFML/Graphics.hpp>
 
 
@@ -20,36 +22,14 @@ void drawAt(sf::RenderWindow* window, sf::Sprite* sprite, int x, int y) {
 	window->draw(*sprite);
 }
 
-int main()
-{
-	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML works!");
+void run() {
+	sf::RenderWindow window(sf::VideoMode(1600, 900), "Cultivation");
 
+	GameState gamestate;
 	ResourceManager resourceManager; // must be called after RenderWindow I guess.. or at least not from a global thingy
+	Interface interface(&window, &gamestate, &resourceManager);
 
-	// fill 2 dimensional vector with tiles
-	int w = 128;
-	int h = 128;
-	for (int i = 0; i < 20; i++) {
-		std::vector<Tile> tileRow;
-		for (int j = 0; j < 20; j++) {
-			if (j % 2 == 0) {
-				tileRow.push_back(Tile(i * w, j * h * 0.75));
-			}
-			else {
-				tileRow.push_back(Tile(i * w + w * 0.5, j * h * 0.75));
-			}
-		}
-		tiles.push_back(tileRow);
-	}
-
-	// create some actors
-	for (int i = 0; i < 5; i++) {
-		actors.push_back(Actor(i * 128, 0));
-	}
-
-	sf::Sprite hexagonSprite = resourceManager.loadSprite("Hexagon");
-	sf::Sprite actorSprite = resourceManager.loadSprite("Actor");
-
+	sf::Clock clock;
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -59,20 +39,16 @@ int main()
 				window.close();
 		}
 
-		window.clear();
+		sf::Time elapsedTime = clock.restart();
+		int elapsed = elapsedTime.asMilliseconds();
 
-		for (const auto& tileColumn : tiles) {
-			for (const auto& tile : tileColumn) {
-				drawAt(&window, &hexagonSprite, tile.x, tile.y);
-			}
-		}
-
-		for (const auto& actor : actors) {
-			drawAt(&window, &actorSprite, actor.x, actor.y);
-		}
-
-		window.display();
+		interface.update(elapsed);
+		interface.draw();
 	}
+}
 
+int main()
+{
+	run();
 	return 0;
 }

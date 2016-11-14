@@ -3,7 +3,7 @@
 
 ResourceManager::ResourceManager()
 {
-	loadTextures();
+	loadTexturesAndSprites();
 }
 
 
@@ -11,7 +11,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-void ResourceManager::loadTextures()
+void ResourceManager::loadTexturesAndSprites()
 {
 	std::string filenames[] = { "Hexagon", "Actor" };
 
@@ -25,12 +25,9 @@ void ResourceManager::loadTextures()
 		texture.setSmooth(true);
 
 		textures[name] = texture;
+
+		sf::Sprite sprite;
+		sprite.setTexture(textures[name]);
+		sprites[name] = sprite;
 	}
-}
-
-sf::Sprite ResourceManager::loadSprite(std::string name) {
-	sf::Sprite sprite;
-	sprite.setTexture(textures[name]);
-
-	return sprite;
 }
