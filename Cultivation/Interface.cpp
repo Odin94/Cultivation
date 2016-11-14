@@ -13,6 +13,7 @@ Interface::~Interface() {}
 void Interface::update(int elapsed)
 {
 	handleKeyboard(elapsed);
+	handleMouse();
 }
 
 void Interface::handleKeyboard(int elapsed)
@@ -35,6 +36,24 @@ void Interface::handleKeyboard(int elapsed)
 	}
 }
 
+void Interface::handleMouse()
+{
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		for (auto& actor : gamestate->actors) {
+			if (isMouseOver(actor)) {
+				selectedActor = &actor;
+			}
+		}
+	}
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	{
+		if (selectedActor != nullptr) {
+
+		}
+	}
+}
+
 void Interface::draw()
 {
 	window->clear();
@@ -46,7 +65,12 @@ void Interface::draw()
 	}
 
 	for (const auto& actor : gamestate->actors) {
-		drawAtWithCameraOffset(&resourceManager->sprites["Actor"], actor.x, actor.y);
+		if (&actor == selectedActor) {
+			drawAtWithCameraOffset(&resourceManager->sprites["SelectedActor"], actor.x, actor.y);
+		}
+		else {
+			drawAtWithCameraOffset(&resourceManager->sprites["Actor"], actor.x, actor.y);
+		}
 	}
 
 	window->display();
@@ -57,4 +81,22 @@ void Interface::drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y)
 	sprite->setPosition(sf::Vector2f(x - camera.offsetX, y - camera.offsetY));
 	window->draw(*sprite);
 }
+
+bool Interface::isPointOverRect(int x1, int y1, int x2, int y2, int w2, int h2)
+{
+	return !(x1 > x2 + w2 || x1 < x2 || y1 > y2 + h2 || y1 < y2);
+}
+
+bool Interface::isMouseOver(Actor& actor)
+{
+	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, actor.x, actor.y, actor.w, actor.h);
+}
+
+bool Interface::isMouseOver(Tile& tile)
+{
+	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+	return isPointOverRect(mousePos.x - camera.offsetX, mousePos.y - camera.offsetY, tile.x, tile.y, tile.w, tile.h);
+}
+
 

@@ -8,6 +8,7 @@ public:
 	~Actor();
 
 	double x, y, targetX, targetY, velX, velY;
+	int w, h;
 
 	// this should move to a Tile, really..
 	void moveTo(Tile* tile) {

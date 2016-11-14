@@ -14,6 +14,7 @@ public:
 
 	void update(int elapsed);
 	void handleKeyboard(int elapsed);
+	void handleMouse();
 	void draw();
 
 private:
@@ -22,6 +23,12 @@ private:
 	GameState* gamestate;
 	ResourceManager* resourceManager;
 
+	Actor* selectedActor = nullptr;
+
 	void drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y);
+
+	bool isPointOverRect(int x1, int y1, int x2, int y2, int w2, int h2); // TODO: move this to somewhere more appropriate (utils class? Mouse Wrapper?)
+	bool isMouseOver(Actor& actor);
+	bool isMouseOver(Tile& tile);
 };
 
