@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "Vec2d.h"
 
 class Actor
 {
@@ -7,15 +8,12 @@ public:
 	Actor(double x, double y);
 	~Actor();
 
-	double x, y, targetX, targetY, velX, velY;
+	Vec2d pos, tar;
+	double speed = 1;
 	int w, h;
 
-	// this should move to a Tile, really..
-	void moveTo(Tile* tile) {
-		this->targetX = tile->x;
-		this->targetY = tile->y;
+	void moveTo(Tile& tile);
+	void update(int elapsed);
 
-
-	}
 };
 

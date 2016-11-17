@@ -159,6 +159,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Vec2d.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
@@ -174,6 +175,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Vec2d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Actor.png" />

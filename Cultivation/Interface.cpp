@@ -38,21 +38,42 @@ void Interface::handleKeyboard(int elapsed)
 
 void Interface::handleMouse()
 {
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
+	if (LMBReleased()) {
 		for (auto& actor : gamestate->actors) {
 			if (isMouseOver(actor)) {
 				selectedActor = &actor;
+				break;
 			}
 		}
 	}
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
-	{
-		if (selectedActor != nullptr) {
 
+	if (RMBReleased()) {
+		if (selectedActor != nullptr) {
+			for (auto& tileColumn : gamestate->tiles) {
+				for (auto& tile : tileColumn) {
+					if (isMouseOver(tile)) {
+						selectedActor->moveTo(tile);
+						break;
+					}
+				}
+			}
 		}
 	}
+
+	LMBwasPressedLastFrame = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+	RMBwasPressedLastFrame = sf::Mouse::isButtonPressed(sf::Mouse::Right);
 }
+
+bool Interface::RMBReleased()
+{
+	return (!sf::Mouse::isButtonPressed(sf::Mouse::Right) && RMBwasPressedLastFrame);
+}
+
+bool Interface::LMBReleased()
+{
+	return (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && LMBwasPressedLastFrame);
+}
+
 
 void Interface::draw()
 {
@@ -66,10 +87,10 @@ void Interface::draw()
 
 	for (const auto& actor : gamestate->actors) {
 		if (&actor == selectedActor) {
-			drawAtWithCameraOffset(&resourceManager->sprites["SelectedActor"], actor.x, actor.y);
+			drawAtWithCameraOffset(&resourceManager->sprites["SelectedActor"], actor.pos.x, actor.pos.y);
 		}
 		else {
-			drawAtWithCameraOffset(&resourceManager->sprites["Actor"], actor.x, actor.y);
+			drawAtWithCameraOffset(&resourceManager->sprites["Actor"], actor.pos.x, actor.pos.y);
 		}
 	}
 
@@ -90,13 +111,13 @@ bool Interface::isPointOverRect(int x1, int y1, int x2, int y2, int w2, int h2)
 bool Interface::isMouseOver(Actor& actor)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, actor.x, actor.y, actor.w, actor.h);
+	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, actor.pos.x, actor.pos.y, actor.w, actor.h);
 }
 
 bool Interface::isMouseOver(Tile& tile)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return isPointOverRect(mousePos.x - camera.offsetX, mousePos.y - camera.offsetY, tile.x, tile.y, tile.w, tile.h);
+	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, tile.x, tile.y, tile.w, tile.h);
 }
 
 

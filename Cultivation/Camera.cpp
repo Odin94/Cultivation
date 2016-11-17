@@ -7,6 +7,7 @@ Camera::Camera(double offsetX, double offsetY) : offsetX(offsetX), offsetY(offse
 
 Camera::~Camera() {}
 
+// TODO: use Vec2d pos instead of two doubles
 // TODO: make this move smoothly instead of jumping
 void Camera::moveTo(double tarX, double tarY)
 {

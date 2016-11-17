@@ -12,7 +12,6 @@
 #include "Interface.h"
 #include <SFML/Graphics.hpp>
 
-
 std::vector<std::vector<Tile>> tiles;
 std::vector<Actor> actors;
 
@@ -41,7 +40,11 @@ void run() {
 
 		sf::Time elapsedTime = clock.restart();
 		int elapsed = elapsedTime.asMilliseconds();
+		if (elapsed > 20) {
+			elapsed = 20;
+		}
 
+		gamestate.update(elapsed);
 		interface.update(elapsed);
 		interface.draw();
 	}

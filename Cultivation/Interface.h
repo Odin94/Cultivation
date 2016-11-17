@@ -15,6 +15,8 @@ public:
 	void update(int elapsed);
 	void handleKeyboard(int elapsed);
 	void handleMouse();
+	bool RMBReleased();
+	bool LMBReleased();
 	void draw();
 
 private:
@@ -24,6 +26,9 @@ private:
 	ResourceManager* resourceManager;
 
 	Actor* selectedActor = nullptr;
+
+	bool LMBwasPressedLastFrame = false;
+	bool RMBwasPressedLastFrame = false;
 
 	void drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y);
 

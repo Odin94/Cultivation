@@ -32,3 +32,10 @@ GameState::GameState()
 GameState::~GameState()
 {
 }
+
+void GameState::update(int elapsed)
+{
+	for (auto& actor : actors) {
+		actor.update(elapsed);
+	}
+}
