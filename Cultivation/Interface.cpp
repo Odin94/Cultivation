@@ -60,8 +60,17 @@ void Interface::handleMouse()
 		}
 	}
 
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Middle) && MMBwasPressedLastFrame) {
+		Vec2d mousePosCurrentFrame = Vec2d(sf::Mouse::getPosition(*window));
+
+		Vec2d mouseOffset = mousePosLastFrame - mousePosCurrentFrame;
+		camera.moveBy(mouseOffset.x, mouseOffset.y);
+	}
+
 	LMBwasPressedLastFrame = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 	RMBwasPressedLastFrame = sf::Mouse::isButtonPressed(sf::Mouse::Right);
+	MMBwasPressedLastFrame = sf::Mouse::isButtonPressed(sf::Mouse::Middle);
+	mousePosLastFrame = Vec2d(sf::Mouse::getPosition(*window));
 }
 
 bool Interface::RMBReleased()

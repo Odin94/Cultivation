@@ -1,9 +1,9 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #include "Camera.h"
 #include "GameState.h"
 #include "ResourceManager.h"
-#include <SFML/Graphics.hpp>
-
+#include "Vec2d.h"
 
 
 class Interface
@@ -29,6 +29,8 @@ private:
 
 	bool LMBwasPressedLastFrame = false;
 	bool RMBwasPressedLastFrame = false;
+	bool MMBwasPressedLastFrame = false;
+	Vec2d mousePosLastFrame = Vec2d(0, 0);
 
 	void drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y);
 
