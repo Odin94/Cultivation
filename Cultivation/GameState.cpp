@@ -23,6 +23,12 @@ GameState::GameState()
 		tiles.push_back(tileRow);
 	}
 
+	for (auto& tileRow : tiles) {
+		for (auto& tile : tileRow) {
+			tile.findNeighbours(tiles);
+		}
+	}
+
 	// create some actors
 	for (int i = 0; i < 5; i++) {
 		actors.push_back(Actor(i * 128, 0));

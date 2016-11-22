@@ -43,5 +43,9 @@ public:
 	Vec2d operator-(const Vec2d& vec) {
 		return Vec2d(x - vec.x, y - vec.y);
 	}
+
+	Vec2d operator+(const Vec2d& vec) {
+		return Vec2d(x + vec.x, y + vec.y);
+	}
 };
 
