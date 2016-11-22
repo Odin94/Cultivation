@@ -90,7 +90,7 @@ void Interface::draw()
 
 	for (const auto& tileColumn : gamestate->tiles) {
 		for (const auto& tile : tileColumn) {
-			drawAtWithCameraOffset(&resourceManager->sprites["Hexagon"], tile.x, tile.y);
+			drawAtWithCameraOffset(&resourceManager->sprites["Hexagon"], tile.pos.x, tile.pos.y);
 		}
 	}
 
@@ -126,7 +126,7 @@ bool Interface::isMouseOver(Actor& actor)
 bool Interface::isMouseOver(Tile& tile)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, tile.x, tile.y, tile.w, tile.h);
+	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, tile.pos.x, tile.pos.y, tile.w, tile.h);
 }
 
 

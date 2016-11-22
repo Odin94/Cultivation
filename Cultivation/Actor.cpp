@@ -1,15 +1,16 @@
 #include "stdafx.h"
 #include "Actor.h"
+#include "Globals.h"
 
 // TODO: Don't hardcode width/height values
-Actor::Actor(double x, double y) : pos(Vec2d(x, y)), w(128), h(128), tar(Vec2d(x, y)) {}
+Actor::Actor(double x, double y) : pos(Vec2d(x, y)), w(globals::actorWidth), h(globals::actorHeight), tar(Vec2d(x, y)) {}
 
 
 Actor::~Actor() {}
 
 void Actor::moveTo(Tile& tile)
 {
-	tar = Vec2d(tile.x, tile.y);
+	tar = tile.pos;
 }
 
 void Actor::update(int elapsed)

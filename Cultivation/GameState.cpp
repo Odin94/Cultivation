@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "GameState.h"
 #include <iostream>
+#include "Globals.h"
 
 GameState::GameState()
 {
 	//For testing purposes!
 
 	// fill 2 dimensional vector with tiles
-	int w = 128;
-	int h = 128;
+	int w = globals::tileWidth;
+	int h = globals::tileHeight;
 	for (int i = 0; i < 20; i++) {
 		std::vector<Tile> tileRow;
 		for (int j = 0; j < 20; j++) {

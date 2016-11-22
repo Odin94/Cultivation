@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Tile.h"
+#include "Globals.h"
 
 
-Tile::Tile(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {}
+Tile::Tile(int x, int y) : pos(Vec2d(x, y)), w(globals::tileWidth), h(globals::tileHeight) {}
 
 
 Tile::~Tile() {}
