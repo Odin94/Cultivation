@@ -2,7 +2,6 @@
 #include "Actor.h"
 #include "Globals.h"
 
-// TODO: Don't hardcode width/height values
 Actor::Actor(double x, double y) : pos(Vec2d(x, y)), w(globals::actorWidth), h(globals::actorHeight), tar(Vec2d(x, y)) {}
 
 
@@ -21,8 +20,6 @@ void Actor::update(int elapsed)
 
 		pos += vel;
 
-		double postardist = pos.getDistance(tar);
-		double velLen = vel.getLength();
 		if (pos.getDistance(tar) < vel.getLength()) {
 			pos = tar;
 		}

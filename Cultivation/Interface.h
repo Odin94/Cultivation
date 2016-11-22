@@ -31,7 +31,7 @@ private:
 	bool RMBwasPressedLastFrame = false;
 	bool MMBwasPressedLastFrame = false;
 	Vec2d mousePosLastFrame = Vec2d(0, 0);
-
+	
 	void drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y);
 
 	bool isPointOverRect(int x1, int y1, int x2, int y2, int w2, int h2); // TODO: move this to somewhere more appropriate (utils class? Mouse Wrapper?)

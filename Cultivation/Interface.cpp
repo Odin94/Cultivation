@@ -4,7 +4,6 @@
 
 Interface::Interface(sf::RenderWindow* window, GameState* gamestate, ResourceManager* resourceManager) : window(window), gamestate(gamestate), resourceManager(resourceManager)
 {
-	Camera camera();
 }
 
 
@@ -14,6 +13,8 @@ void Interface::update(int elapsed)
 {
 	handleKeyboard(elapsed);
 	handleMouse();
+
+	camera.update(elapsed);
 }
 
 void Interface::handleKeyboard(int elapsed)
@@ -108,7 +109,7 @@ void Interface::draw()
 
 void Interface::drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y)
 {
-	sprite->setPosition(sf::Vector2f(x - camera.offsetX, y - camera.offsetY));
+	sprite->setPosition(sf::Vector2f(x - camera.offset.x, y - camera.offset.y));
 	window->draw(*sprite);
 }
 
@@ -120,13 +121,13 @@ bool Interface::isPointOverRect(int x1, int y1, int x2, int y2, int w2, int h2)
 bool Interface::isMouseOver(Actor& actor)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, actor.pos.x, actor.pos.y, actor.w, actor.h);
+	return isPointOverRect(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, actor.pos.x, actor.pos.y, actor.w, actor.h);
 }
 
 bool Interface::isMouseOver(Tile& tile)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return isPointOverRect(mousePos.x + camera.offsetX, mousePos.y + camera.offsetY, tile.pos.x, tile.pos.y, tile.w, tile.h);
+	return isPointOverRect(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, tile.pos.x, tile.pos.y, tile.w, tile.h);
 }
 
 
