@@ -17,5 +17,8 @@ public:
 	Actor* occupyingActor;
 
 	void findNeighbours(std::vector<std::vector<Tile>>& tiles);
+	Vec2d getIndex();
+	int getCost();
+
 };
 

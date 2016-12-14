@@ -11,7 +11,7 @@ Tile::~Tile() {}
 void Tile::findNeighbours(std::vector<std::vector<Tile>>& tiles)
 {
 	std::vector<Vec2d> neighbourShifts = { Vec2d(0, 1), Vec2d(-1, 1), Vec2d(1, 0), Vec2d(0, -1), Vec2d(1, -1), Vec2d(-1, 0) };
-	Vec2d ownVecPos = Vec2d(pos.x / w, pos.y / h);
+	Vec2d ownVecPos = getIndex();
 
 	for (const auto& shift : neighbourShifts) {
 		Vec2d shifted = ownVecPos + shift;
@@ -21,5 +21,15 @@ void Tile::findNeighbours(std::vector<std::vector<Tile>>& tiles)
 			neighbours.push_back(&tiles[shifted.x][shifted.y]);
 		}
 	}
+}
+
+Vec2d Tile::getIndex()
+{
+	return Vec2d(pos.x / w, pos.y / h);
+}
+
+int Tile::getCost()
+{
+	return 1;
 }
 
