@@ -14,10 +14,10 @@ GameState::GameState()
 		std::vector<Tile> tileRow;
 		for (int j = 0; j < 20; j++) {
 			if (j % 2 == 0) {
-				tileRow.push_back(Tile(i * w, j * h * 0.75));
+				tileRow.push_back(Tile(i * w, j * h * globals::tileOffsetMultY));
 			}
 			else {
-				tileRow.push_back(Tile(i * w + w * 0.5, j * h * 0.75));
+				tileRow.push_back(Tile(i * w + w * globals::tileOffsetMultX, j * h * globals::tileOffsetMultY));
 			}
 		}
 		tiles.push_back(tileRow);
@@ -31,14 +31,10 @@ GameState::GameState()
 
 	// create some actors
 	for (int i = 0; i < 5; i++) {
-		actors.push_back(Actor(i * 128, 0));
+		actors.push_back(Actor(i * w, 0));
 	}
 }
 
-
-GameState::~GameState()
-{
-}
 
 void GameState::update(int elapsed)
 {

@@ -9,7 +9,7 @@
 class Interface
 {
 public:
-	Interface(sf::RenderWindow* window, GameState* gamestate, ResourceManager* resourceManager);
+	Interface(sf::RenderWindow* window, ResourceManager* resourceManager);
 	~Interface();
 
 	void update(int elapsed);
@@ -22,7 +22,7 @@ public:
 private:
 	Camera camera;
 	sf::RenderWindow* window;
-	GameState* gamestate;
+	GameState& gamestate = GameState::getInstance();
 	ResourceManager* resourceManager;
 
 	Actor* selectedActor = nullptr;
@@ -34,7 +34,6 @@ private:
 	
 	void drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y);
 
-	bool isPointOverRect(int x1, int y1, int x2, int y2, int w2, int h2); // TODO: move this to somewhere more appropriate (utils class? Mouse Wrapper?)
 	bool isMouseOver(Actor& actor);
 	bool isMouseOver(Tile& tile);
 };

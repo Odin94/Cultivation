@@ -12,6 +12,7 @@ public:
 
 	Vec2d pos;
 	int w, h;
+	bool highlighted = false;
 
 	std::vector<Tile*> neighbours;
 	Actor* occupyingActor;
@@ -22,3 +23,4 @@ public:
 
 };
 
+std::ostream& operator<<(std::ostream &strm, const Tile &tile);

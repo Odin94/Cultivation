@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -53,6 +54,8 @@ public:
 	}
 };
 
+std::ostream& operator<<(std::ostream &strm, const Vec2d &vec);
+
 namespace std {
 	template <> struct hash<Vec2d>
 	{
@@ -75,7 +78,8 @@ namespace std {
 				y_hash = vec.y * 2;
 			}
 
-			int pairedInt = 0.5 * (x_hash + y_hash)*(x_hash + y_hash + 1) + y_hash; // cantor pairing
+			// cantor pairing; NOTE: This is int only afaik, which is fine for my use case but might be an issue in other contexts
+			int pairedInt = 0.5 * (x_hash + y_hash)*(x_hash + y_hash + 1) + y_hash; 
 			return hash<int>()(pairedInt);
 		}
 	};

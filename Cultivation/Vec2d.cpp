@@ -38,3 +38,7 @@ void Vec2d::mult(Vec2d vec)
 	x *= vec.x;
 	y *= vec.y;
 }
+
+std::ostream& operator<<(std::ostream &strm, const Vec2d &vec) {
+	return strm << "Vec2d(" << vec.x << ", " << vec.y << ")";
+}

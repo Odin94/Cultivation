@@ -24,9 +24,9 @@ void drawAt(sf::RenderWindow* window, sf::Sprite* sprite, int x, int y) {
 void run() {
 	sf::RenderWindow window(sf::VideoMode(1600, 900), "Cultivation");
 
-	GameState gamestate;
+	GameState& gamestate = GameState::getInstance();
 	ResourceManager resourceManager; // must be called after RenderWindow I guess.. or at least not from a global thingy
-	Interface interface(&window, &gamestate, &resourceManager);
+	Interface interface(&window, &resourceManager);
 
 	sf::Clock clock;
 	while (window.isOpen())

@@ -5,16 +5,25 @@
 #include "Tile.h"
 #include "Actor.h"
 
+// singleton
 class GameState
 {
 public:
-	GameState();
-	~GameState();
+	static GameState& getInstance() {
+		static GameState instance; // instantiated on first use
+		return instance;
+	}
+
+	// can't be copied or assigned
+	GameState(GameState const&) = delete;
+	void operator=(GameState const&) = delete;
 
 	void update(int elapsed);
 
-	//TODO: put stuff in subclasses for different states - or put it in a global world class?
 	std::vector<std::vector<Tile>> tiles;
 	std::vector<Actor> actors;
+
+private:
+	GameState();
 };
 
