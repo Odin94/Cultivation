@@ -67,7 +67,9 @@ namespace utils {
 			nodeMap.push_back(nodes);
 		}
 
-		nodeMap[startPoint.x][startPoint.y].updateDistance(0);
+		Node& startNode = nodeMap[startPoint.x][startPoint.y];
+		startNode.costToReachFromStart = 0;
+		startNode.totalDistance = startNode.distanceToEndPoint;;
 
 		return nodeMap;
 	}
@@ -75,6 +77,7 @@ namespace utils {
 
 	std::deque<Tile*> reconstructPath(Node* node) {
 		std::deque<Tile*> path;
+		std::cout << node->costToReachFromStart << "\n";
 
 		while (node->cameFrom != nullptr) {
 			path.push_front(&node->tile);
@@ -102,10 +105,13 @@ namespace utils {
 
 	std::deque<Tile*> findPath(Vec2d startPoint, Vec2d endPoint, std::vector<std::vector<Tile>>& map)
 	{
+		// return empty list if endpoint not passable
+		if (map[endPoint.x][endPoint.y].isPassable() == false) {
+			return{};
+		}
 
 		std::set<Node*> nodesToExplore;
 		std::unordered_set<Vec2d> exploredNodes;
-
 
 		auto nodeMap = getNodeMap(map, startPoint, endPoint);
 
@@ -123,8 +129,8 @@ namespace utils {
 			for (auto neighbour : currentNode->tile.neighbours) {
 				Vec2d neighbourPos = neighbour->getIndex();
 
-				// if neighbour in explored Nodes
-				if (exploredNodes.find(neighbourPos) != exploredNodes.end()) {
+				// if neighbour in explored Nodes or impassable
+				if (exploredNodes.find(neighbourPos) != exploredNodes.end() || !neighbour->isPassable()) {
 					continue;
 				}
 
@@ -135,8 +141,8 @@ namespace utils {
 
 				int costFromThisPathPlusDistance = currentNode->costToReachFromStart + neighbourNode.tile.getCost();
 				// if this path to neighbour is closer than any previous path, update
-				if (costFromThisPathPlusDistance < neighbourNode.totalDistance) {
-					neighbourNode.updateDistance(currentNode->totalDistance);
+				if (costFromThisPathPlusDistance < neighbourNode.costToReachFromStart) {
+					neighbourNode.updateDistance(currentNode->costToReachFromStart);
 					neighbourNode.cameFrom = currentNode;
 				};
 			}
@@ -144,7 +150,6 @@ namespace utils {
 
 		// no path found
 		std::cout << "no path found!";
-		std::deque<Tile*> emptyTiles;
-		return emptyTiles;
+		return{};
 	}
 }

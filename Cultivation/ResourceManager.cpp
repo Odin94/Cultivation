@@ -13,7 +13,7 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::loadTexturesAndSprites()
 {
-	std::string filenames[] = { "Hexagon", "HexagonHighlighted", "Actor", "SelectedActor" };
+	std::string filenames[] = { "Hexagon", "MountainHexagon", "HillHexagon", "HexagonHighlighted", "Actor", "SelectedActor" };
 
 	for (const auto& name : filenames) {
 		sf::Texture texture;

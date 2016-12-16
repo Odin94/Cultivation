@@ -1,8 +1,11 @@
 #pragma once
 #include <map> // TODO: replace with unordered_map and provide std::hash for enum class Type for better performance (probably no noticeable difference though)
 
+// TODO: load all this from a datafile?
 namespace TileTypes {
-	enum class Type;
+	const enum class Type { hill, mountain, plains };;
 
-	// std::map<Type, int> costs; // causes compile error
+	const std::map<Type, int> costs = { { Type::plains, 1 }, { Type::hill, 2 }, { Type::mountain, 3 } };
+	const std::map<Type, bool> passable = { { Type::plains, true },{ Type::hill, true },{ Type::mountain, false } };
+	const std::map<Type, std::string> spriteNames = { { Type::plains, "Hexagon" },{ Type::hill, "HillHexagon" },{ Type::mountain, "MountainHexagon" } };
 }

@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include <iostream>
 #include "Globals.h"
+#include "TileTypes.h"
 
 GameState::GameState()
 {
@@ -14,7 +15,15 @@ GameState::GameState()
 		std::vector<Tile> tileRow;
 		for (int j = 0; j < 20; j++) {
 			if (j % 2 == 0) {
-				tileRow.push_back(Tile(i * w, j * h * globals::tileOffsetMultY));
+				if (i > 5 && i < 10 && j < 5) {
+					tileRow.push_back(Tile(i * w, j * h * globals::tileOffsetMultY, TileTypes::Type::mountain));
+				}
+				else if (i > 0 && i < 4 && j < 5 && j > 1) {
+					tileRow.push_back(Tile(i * w, j * h * globals::tileOffsetMultY, TileTypes::Type::hill));
+				}
+				else {
+					tileRow.push_back(Tile(i * w, j * h * globals::tileOffsetMultY));
+				}
 			}
 			else {
 				tileRow.push_back(Tile(i * w + w * globals::tileOffsetMultX, j * h * globals::tileOffsetMultY));

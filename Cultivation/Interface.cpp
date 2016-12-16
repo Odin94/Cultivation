@@ -110,7 +110,8 @@ void Interface::draw()
 
 	for (const auto& tileColumn : gamestate.tiles) {
 		for (const auto& tile : tileColumn) {
-			drawAtWithCameraOffset(&resourceManager->sprites["Hexagon"], tile.pos.x, tile.pos.y);
+			std::string spriteName = TileTypes::spriteNames.at(tile.type);
+			drawAtWithCameraOffset(&resourceManager->sprites[spriteName], tile.pos.x, tile.pos.y);
 			if (tile.highlighted) drawAtWithCameraOffset(&resourceManager->sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
 		}
 	}

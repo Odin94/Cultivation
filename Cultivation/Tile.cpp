@@ -3,7 +3,7 @@
 #include "Globals.h"
 
 
-Tile::Tile(int x, int y) : pos(Vec2d(x, y)), w(globals::tileWidth), h(globals::tileHeight) {}
+Tile::Tile(int x, int y, TileTypes::Type type) : pos(Vec2d(x, y)), w(globals::tileWidth), h(globals::tileHeight), type(type) {}
 
 
 Tile::~Tile() {}
@@ -39,12 +39,12 @@ Vec2d Tile::getIndex()
 
 int Tile::getCost()
 {
-	return 1;
+	return TileTypes::costs.at(type);
 }
 
-bool Tile::getPassable()
+bool Tile::isPassable()
 {
-	return true;
+	return TileTypes::passable.at(type);
 }
 
 std::ostream& operator<<(std::ostream &strm, const Tile &tile) {

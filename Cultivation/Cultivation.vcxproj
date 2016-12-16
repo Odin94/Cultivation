@@ -178,7 +178,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="TileTypes.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Vec2d.cpp" />
   </ItemGroup>
