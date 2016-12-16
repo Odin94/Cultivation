@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2d.h"
 #include <vector>
+#include "TileTypes.h"
 
 class Actor;
 
@@ -20,6 +21,7 @@ public:
 	void findNeighbours(std::vector<std::vector<Tile>>& tiles);
 	Vec2d getIndex();
 	int getCost();
+	bool getPassable();
 
 };
 

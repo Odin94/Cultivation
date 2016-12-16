@@ -42,6 +42,11 @@ int Tile::getCost()
 	return 1;
 }
 
+bool Tile::getPassable()
+{
+	return true;
+}
+
 std::ostream& operator<<(std::ostream &strm, const Tile &tile) {
 	Vec2d tilePos(int(tile.pos.x / tile.w), round(tile.pos.y / tile.h / globals::tileOffsetMultY));
 	return strm << "TilePos: " << tilePos.x << ", " << tilePos.y;

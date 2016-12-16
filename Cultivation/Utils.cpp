@@ -11,6 +11,12 @@ namespace utils {
 		return !(x1 > x2 + w2 || x1 < x2 || y1 > y2 + h2 || y1 < y2);
 	}
 
+	bool isPointOverCircle(int x1, int y1, int x2, int y2, int r)
+	{
+		int distance = Vec2d(x1, y1).getDistance(Vec2d(x2, y2));
+		return distance < r;
+	}
+
 	int getHexDistance(Vec2d v1, Vec2d v2) {
 		int x1 = v1.x - floor(v1.y / 2);
 		int y1 = v1.y;
@@ -66,6 +72,7 @@ namespace utils {
 		return nodeMap;
 	}
 
+
 	std::deque<Tile*> reconstructPath(Node* node) {
 		std::deque<Tile*> path;
 
@@ -76,6 +83,7 @@ namespace utils {
 
 		return path;
 	}
+
 
 	Node* popEntryWithClosestTotalDistance(std::set<Node*>& nodes) {
 		Node* closestNode;

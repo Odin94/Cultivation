@@ -2,12 +2,10 @@
 #include "Interface.h"
 #include "Globals.h"
 #include "Utils.h"
-
-Interface::Interface(sf::RenderWindow* window, ResourceManager* resourceManager) : window(window), resourceManager(resourceManager)
-{
-}
+#include "TileTypes.h"
 
 
+Interface::Interface(sf::RenderWindow* window, ResourceManager* resourceManager) : window(window), resourceManager(resourceManager) {}
 Interface::~Interface() {}
 
 void Interface::update(int elapsed)
@@ -17,6 +15,7 @@ void Interface::update(int elapsed)
 
 	camera.update(elapsed);
 }
+
 
 void Interface::handleKeyboard(int elapsed)
 {
@@ -38,6 +37,7 @@ void Interface::handleKeyboard(int elapsed)
 	}
 }
 
+
 void Interface::handleMouse() {
 	if (LMBReleased()) {
 		for (auto& actor : gamestate.actors) {
@@ -48,6 +48,7 @@ void Interface::handleMouse() {
 		}
 	}
 
+	// TODO: calculate tile from mouse-pos instead of checking for every tile for improved efficiency if necessary
 	if (RMBReleased()) {
 		if (selectedActor != nullptr) {
 			for (auto& tileColumn : gamestate.tiles) {
@@ -61,9 +62,7 @@ void Interface::handleMouse() {
 		}
 		for (auto& tileColumn : gamestate.tiles) {
 			for (auto& tile : tileColumn) {
-				for (auto neighbour : tile.neighbours) {
-					neighbour->highlighted = false;
-				}
+				tile.highlighted = false;
 			}
 		}
 		for (auto& tileColumn : gamestate.tiles) {
@@ -92,10 +91,12 @@ void Interface::handleMouse() {
 	mousePosLastFrame = Vec2d(sf::Mouse::getPosition(*window));
 }
 
+
 bool Interface::RMBReleased()
 {
 	return (!sf::Mouse::isButtonPressed(sf::Mouse::Right) && RMBwasPressedLastFrame);
 }
+
 
 bool Interface::LMBReleased()
 {
@@ -109,12 +110,8 @@ void Interface::draw()
 
 	for (const auto& tileColumn : gamestate.tiles) {
 		for (const auto& tile : tileColumn) {
-			if (tile.highlighted) {
-				drawAtWithCameraOffset(&resourceManager->sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
-			}
-			else {
-				drawAtWithCameraOffset(&resourceManager->sprites["Hexagon"], tile.pos.x, tile.pos.y);
-			}
+			drawAtWithCameraOffset(&resourceManager->sprites["Hexagon"], tile.pos.x, tile.pos.y);
+			if (tile.highlighted) drawAtWithCameraOffset(&resourceManager->sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
 		}
 	}
 
@@ -130,6 +127,7 @@ void Interface::draw()
 	window->display();
 }
 
+
 void Interface::drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y)
 {
 	sprite->setPosition(sf::Vector2f(x - camera.offset.x, y - camera.offset.y));
@@ -141,13 +139,14 @@ void Interface::drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y)
 bool Interface::isMouseOver(Actor& actor)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return utils::isPointOverRect(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, actor.pos.x, actor.pos.y, actor.w, actor.h);
+	return utils::isPointOverCircle(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, actor.pos.x + actor.w / 2, actor.pos.y + actor.h / 2, actor.w / 2);
 }
+
 
 bool Interface::isMouseOver(Tile& tile)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return utils::isPointOverRect(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, tile.pos.x, tile.pos.y, tile.w, tile.h);
+	return utils::isPointOverCircle(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, tile.pos.x + tile.w/2, tile.pos.y + tile.h/2, tile.w / 2); // assumes tile.w == tile.h
 }
 
 
