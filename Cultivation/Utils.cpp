@@ -77,7 +77,7 @@ namespace utils {
 
 	std::deque<Tile*> reconstructPath(Node* node) {
 		std::deque<Tile*> path;
-		std::cout << node->costToReachFromStart << "\n";
+		// std::cout << node->costToReachFromStart << "\n";
 
 		while (node->cameFrom != nullptr) {
 			path.push_front(&node->tile);

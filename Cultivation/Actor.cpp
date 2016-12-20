@@ -4,7 +4,7 @@
 #include "Utils.h"
 #include "GameState.h"
 
-Actor::Actor(double x, double y) : pos(Vec2d(x, y)), w(globals::actorWidth), h(globals::actorHeight), tar(Vec2d(x, y)) {}
+Actor::Actor(double x, double y, std::string animRunningSpriteName) : pos(Vec2d(x, y)), w(globals::actorWidth), h(globals::actorHeight), tar(Vec2d(x, y)), anim(Animation(animRunningSpriteName, 3, globals::tileWidth, globals::tileHeight)) {}
 
 
 Actor::~Actor() {}
@@ -37,6 +37,20 @@ void Actor::update(int elapsed)
 			pos = tar;
 		}
 	}
+
+	anim.update(elapsed);
+}
+
+void Actor::draw(sf::Sprite * sprite, sf::RenderWindow * window, sf::Vector2f drawPos)
+{
+	// if not moving
+	if (pos == tar && tarPath.empty()) {
+		anim.reset();
+	}
+	// if moving
+	else {
+	}
+	anim.draw(sprite, window, drawPos);
 }
 
 Vec2d Actor::getIndex()

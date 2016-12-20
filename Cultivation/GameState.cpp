@@ -40,7 +40,7 @@ GameState::GameState()
 
 	// create some actors
 	for (int i = 0; i < 5; i++) {
-		actors.push_back(Actor(i * w, 0));
+		actors.push_back(Actor(i * w, 0, "Actor"));
 	}
 }
 

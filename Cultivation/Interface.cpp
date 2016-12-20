@@ -116,12 +116,12 @@ void Interface::draw()
 		}
 	}
 
-	for (const auto& actor : gamestate.actors) {
+	for (auto& actor : gamestate.actors) {
 		if (&actor == selectedActor) {
-			drawAtWithCameraOffset(&resourceManager->sprites["SelectedActor"], actor.pos.x, actor.pos.y);
+			actor.draw(&resourceManager->sprites["SelectedActor"], window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
 		}
 		else {
-			drawAtWithCameraOffset(&resourceManager->sprites["Actor"], actor.pos.x, actor.pos.y);
+			actor.draw(&resourceManager->sprites["Actor"], window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
 		}
 	}
 
