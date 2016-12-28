@@ -44,7 +44,7 @@ int Tile::getCost()
 
 bool Tile::isPassable()
 {
-	return TileTypes::passable.at(type);
+	return (TileTypes::passable.at(type) && (occupyingActor == nullptr));
 }
 
 std::ostream& operator<<(std::ostream &strm, const Tile &tile) {

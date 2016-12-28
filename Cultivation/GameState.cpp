@@ -47,7 +47,14 @@ GameState::GameState()
 
 void GameState::update(int elapsed)
 {
+	for (auto& column : tiles) {
+		for (auto& tile : column) {
+			tile.occupyingActor = nullptr;
+		}
+	}
+
 	for (auto& actor : actors) {
 		actor.update(elapsed);
+		tiles[actor.getIndex().x][actor.getIndex().y].occupyingActor = &actor;
 	}
 }

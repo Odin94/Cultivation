@@ -17,7 +17,7 @@ public:
 	TileTypes::Type type;
 
 	std::vector<Tile*> neighbours;
-	Actor* occupyingActor;
+	Actor* occupyingActor = nullptr;
 
 	void findNeighbours(std::vector<std::vector<Tile>>& tiles);
 	Vec2d getIndex();
