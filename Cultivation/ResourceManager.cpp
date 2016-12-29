@@ -1,22 +1,12 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
-ResourceManager::ResourceManager()
-{
-	loadTexturesAndSprites();
-}
+void ResourceManager::loadTexturesAndSprites() {
+	std::string filenames[] = { "SelectionCircle", "Hexagon", "MountainHexagon", "WaterHexagon", "HillHexagon", "HexagonHighlighted", "Actor", "SelectedActor", "Building" };
 
-
-ResourceManager::~ResourceManager()
-{
-}
-
-void ResourceManager::loadTexturesAndSprites()
-{
-	std::string filenames[] = { "Hexagon", "MountainHexagon", "HillHexagon", "HexagonHighlighted", "Actor", "SelectedActor" };
-
-	for (const auto& name : filenames) {
+	for (auto& name : filenames) {
 		sf::Texture texture;
+
 		if (!texture.loadFromFile("res/" + name + ".png"))
 		{
 			std::cout << "couldn't load texture! " << name;
@@ -30,4 +20,9 @@ void ResourceManager::loadTexturesAndSprites()
 		sprite.setTexture(textures[name]);
 		sprites[name] = sprite;
 	}
+
+}
+
+ResourceManager::ResourceManager()
+{
 }

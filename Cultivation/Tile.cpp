@@ -3,15 +3,14 @@
 #include "Globals.h"
 
 
-Tile::Tile(int x, int y, TileTypes::Type type) : pos(Vec2d(x, y)), w(globals::tileWidth), h(globals::tileHeight), type(type) {}
-
-
+Tile::Tile(int x, int y, TileTypes::Type type, int animFrames) : GameObject(x, y, globals::tileWidth, globals::tileHeight, Animation(TileTypes::spriteNames.at(type), animFrames, globals::tileWidth, globals::tileHeight)), type(type) {}
 Tile::~Tile() {}
+
 
 void Tile::findNeighbours(std::vector<std::vector<Tile>>& tiles)
 {
 	std::vector<Vec2d> neighbourShifts = { Vec2d(0, 1), Vec2d(1, 0), Vec2d(0, -1), Vec2d(-1, 0) };
-	// Vec2d(-1, -1) Vec2d(1, 1)
+
 	Vec2d ownVecPos = getIndex();
 	if (int(ownVecPos.y) % 2 == 0) {
 		neighbourShifts.push_back(Vec2d(-1, -1));
@@ -30,11 +29,6 @@ void Tile::findNeighbours(std::vector<std::vector<Tile>>& tiles)
 			neighbours.push_back(&tiles[shifted.x][shifted.y]);
 		}
 	}
-}
-
-Vec2d Tile::getIndex()
-{
-	return Vec2d(int(pos.x / w), round(pos.y / h / globals::tileOffsetMultY));
 }
 
 int Tile::getCost()

@@ -9,7 +9,7 @@
 class Interface
 {
 public:
-	Interface(sf::RenderWindow* window, ResourceManager* resourceManager);
+	Interface(sf::RenderWindow* window);
 	~Interface();
 
 	void update(int elapsed);
@@ -23,7 +23,6 @@ private:
 	Camera camera;
 	sf::RenderWindow* window;
 	GameState& gamestate = GameState::getInstance();
-	ResourceManager* resourceManager;
 
 	Actor* selectedActor = nullptr;
 
@@ -32,7 +31,7 @@ private:
 	bool MMBwasPressedLastFrame = false;
 	Vec2d mousePosLastFrame = Vec2d(0, 0);
 	
-	void drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y);
+	void drawAtWithCameraOffset(sf::Sprite& sprite, double x, double y);
 
 	bool isMouseOver(Actor& actor);
 	bool isMouseOver(Tile& tile);

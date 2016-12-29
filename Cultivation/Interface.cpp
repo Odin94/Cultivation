@@ -5,7 +5,7 @@
 #include "TileTypes.h"
 
 
-Interface::Interface(sf::RenderWindow* window, ResourceManager* resourceManager) : window(window), resourceManager(resourceManager) {}
+Interface::Interface(sf::RenderWindow* window) : window(window) {}
 Interface::~Interface() {}
 
 void Interface::update(int elapsed)
@@ -69,6 +69,8 @@ void Interface::handleMouse() {
 			for (auto& tile : tileColumn) {
 				if (isMouseOver(tile)) {
 					std::cout << tile.getIndex() << "\n";
+					std::cout << tile.currentAnim->spriteName << "\n";
+					
 					for (auto neighbour : tile.neighbours) {
 						neighbour->highlighted = true;
 					}
@@ -107,21 +109,29 @@ bool Interface::LMBReleased()
 void Interface::draw()
 {
 	window->clear();
+	int i = 0;
+	int j = 0;
 
 	for (const auto& tileColumn : gamestate.tiles) {
 		for (const auto& tile : tileColumn) {
-			std::string spriteName = TileTypes::spriteNames.at(tile.type);
-			drawAtWithCameraOffset(&resourceManager->sprites[spriteName], tile.pos.x, tile.pos.y);
-			if (tile.highlighted) drawAtWithCameraOffset(&resourceManager->sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
+			if (tile.currentAnim->spriteName == "WaterHexagon") {
+				std::cout << "hi";
+			}
+
+			tile.draw(window, sf::Vector2f(tile.pos.x - camera.offset.x, tile.pos.y - camera.offset.y));
+			//std::string spriteName = TileTypes::spriteNames.at(tile.type);
+			//drawAtWithCameraOffset(ResourceManager::sprites[spriteName], tile.pos.x, tile.pos.y);
+			if (tile.highlighted) drawAtWithCameraOffset(ResourceManager::getInstance().sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
+			j++;
 		}
+		j = 0;
+		i++;
 	}
 
-	for (auto& actor : gamestate.actors) {
+	for (const auto& actor : gamestate.actors) {
+		actor.draw(window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
 		if (&actor == selectedActor) {
-			actor.draw(&resourceManager->sprites["SelectedActor"], window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
-		}
-		else {
-			actor.draw(&resourceManager->sprites["Actor"], window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
+			drawAtWithCameraOffset(ResourceManager::getInstance().sprites["SelectionCircle"], actor.pos.x, actor.pos.y);
 		}
 	}
 
@@ -129,10 +139,10 @@ void Interface::draw()
 }
 
 
-void Interface::drawAtWithCameraOffset(sf::Sprite* sprite, double x, double y)
+void Interface::drawAtWithCameraOffset(sf::Sprite& sprite, double x, double y)
 {
-	sprite->setPosition(sf::Vector2f(x - camera.offset.x, y - camera.offset.y));
-	window->draw(*sprite);
+	sprite.setPosition(sf::Vector2f(x - camera.offset.x, y - camera.offset.y));
+	window->draw(sprite);
 }
 
 

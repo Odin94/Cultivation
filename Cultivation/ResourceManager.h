@@ -5,15 +5,28 @@
 #include <string>
 #include <unordered_map>
 
+// REFACTOR: maybe turn this into a namespace instead of a singleton?
+
+// singleton
 class ResourceManager
 {
 public:
-	ResourceManager();
-	~ResourceManager();
+	static ResourceManager& getInstance() {
+		static ResourceManager instance; // instantiated on first use
+		return instance;
+	}
+
+	void loadTexturesAndSprites();
 
 	std::unordered_map<std::string, sf::Texture> textures;
 	std::unordered_map<std::string, sf::Sprite> sprites;
 
-	void loadTexturesAndSprites();
+	// can't be copied or assigned
+	ResourceManager(ResourceManager const&) = delete;
+	void operator=(ResourceManager const&) = delete;
+
+
+private:
+	ResourceManager();
 };
 

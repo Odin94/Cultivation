@@ -1,18 +1,16 @@
 #pragma once
-#include "Vec2d.h"
+#include "GameObject.h"
 #include <vector>
 #include "TileTypes.h"
 
 class Actor;
 
-class Tile
+class Tile: public GameObject
 {
 public:
-	Tile(int x, int y, TileTypes::Type type = TileTypes::Type::plains);
+	Tile(int x, int y, TileTypes::Type type = TileTypes::Type::plains, int animFrames = 1);
 	~Tile();
 
-	Vec2d pos;
-	int w, h;
 	bool highlighted = false;
 	TileTypes::Type type;
 
@@ -20,7 +18,6 @@ public:
 	Actor* occupyingActor = nullptr;
 
 	void findNeighbours(std::vector<std::vector<Tile>>& tiles);
-	Vec2d getIndex();
 	int getCost();
 	bool isPassable();
 

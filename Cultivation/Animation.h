@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+const enum class AnimationType { idle, moving };
+
 class Animation
 {
 public:
@@ -8,12 +10,15 @@ public:
 	~Animation();
 
 	std::string spriteName;
+	sf::Sprite& sprite;
 
 	void update(int elapsed);
-	void draw(sf::Sprite* sprite, sf::RenderWindow* window, sf::Vector2f pos);
+	void draw(sf::RenderWindow* window, sf::Vector2f pos);
 	void reset();
 	void pause();
 	void resume();
+
+	int isFucked = 1;
 
 private:
 	const int totalFrames, frameDelay, frameWidth, frameHeight;
@@ -21,3 +26,4 @@ private:
 	bool paused = false;
 };
 
+std::ostream& operator<<(std::ostream &strm, const Animation &anim);

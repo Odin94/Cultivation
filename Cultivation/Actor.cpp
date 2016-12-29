@@ -4,9 +4,9 @@
 #include "Utils.h"
 #include "GameState.h"
 
-Actor::Actor(double x, double y, std::string animRunningSpriteName) : pos(Vec2d(x, y)), w(globals::actorWidth), h(globals::actorHeight), tar(Vec2d(x, y)), anim(Animation(animRunningSpriteName, 3, globals::tileWidth, globals::tileHeight)) {}
-
-
+Actor::Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName): GameObject(x, y, globals::actorWidth, globals::actorHeight, Animation(animIdleSpriteName, 1, globals::actorWidth, globals::actorHeight)), tar(Vec2d(x, y)) {
+	animations.emplace(std::make_pair(AnimationType::moving, Animation(animRunningSpriteName, 3, w, h)));
+}
 Actor::~Actor() {}
 
 void Actor::findPathAndMoveTo(Tile & tile)
@@ -38,22 +38,23 @@ void Actor::update(int elapsed)
 		}
 	}
 
-	anim.update(elapsed);
+	updateAnimation(elapsed);
 }
 
-void Actor::draw(sf::Sprite * sprite, sf::RenderWindow * window, sf::Vector2f drawPos)
+void Actor::updateAnimation(int elapsed)
 {
-	// if not moving
-	if (pos == tar && tarPath.empty()) {
-		anim.reset();
+	// if not moving and not in idle anim, reset current anim and set anim to idle
+	if (currentAnim != &animations.at(AnimationType::idle) && pos == tar && tarPath.empty()) {
+		currentAnim->reset();
+		currentAnim = &animations.at(AnimationType::idle);
 	}
-	// if moving
-	else {
+	// if moving and not in moving anim
+	else if (currentAnim != &animations.at(AnimationType::moving)) {
+		currentAnim->reset();
+		currentAnim = &animations.at(AnimationType::moving);
 	}
-	anim.draw(sprite, window, drawPos);
+	
+	currentAnim->update(elapsed);
 }
 
-Vec2d Actor::getIndex()
-{
-	return Vec2d(int(pos.x / w), round(pos.y / h / globals::tileOffsetMultY));
-}
+
