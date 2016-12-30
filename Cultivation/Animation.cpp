@@ -42,5 +42,5 @@ void Animation::resume()
 }
 
 std::ostream& operator<<(std::ostream &strm, const Animation &anim) {
-	return strm << "Animation(sprName: " << anim.spriteName << ", isFucked: " << anim.isFucked << ")";
+	return strm << "Animation(sprName: " << anim.spriteName << "\n";
 }

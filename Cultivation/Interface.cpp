@@ -114,13 +114,7 @@ void Interface::draw()
 
 	for (const auto& tileColumn : gamestate.tiles) {
 		for (const auto& tile : tileColumn) {
-			if (tile.currentAnim->spriteName == "WaterHexagon") {
-				std::cout << "hi";
-			}
-
 			tile.draw(window, sf::Vector2f(tile.pos.x - camera.offset.x, tile.pos.y - camera.offset.y));
-			//std::string spriteName = TileTypes::spriteNames.at(tile.type);
-			//drawAtWithCameraOffset(ResourceManager::sprites[spriteName], tile.pos.x, tile.pos.y);
 			if (tile.highlighted) drawAtWithCameraOffset(ResourceManager::getInstance().sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
 			j++;
 		}
@@ -133,6 +127,10 @@ void Interface::draw()
 		if (&actor == selectedActor) {
 			drawAtWithCameraOffset(ResourceManager::getInstance().sprites["SelectionCircle"], actor.pos.x, actor.pos.y);
 		}
+	}
+
+	for (const auto& building : gamestate.buildings) {
+		building.draw(window, sf::Vector2f(building.pos.x - camera.offset.x, building.pos.y - camera.offset.y));
 	}
 
 	window->display();

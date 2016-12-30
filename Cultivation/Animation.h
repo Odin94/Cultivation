@@ -18,8 +18,6 @@ public:
 	void pause();
 	void resume();
 
-	int isFucked = 1;
-
 private:
 	const int totalFrames, frameDelay, frameWidth, frameHeight;
 	int delayAccumulator = 0, currentFrame = 0;

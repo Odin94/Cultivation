@@ -47,6 +47,13 @@ GameState::GameState()
 	for (int i = 0; i < 5; i++) {
 		actors.push_back(Actor(i * w, 0, "Actor", "Actor"));
 	}
+
+	// create a building
+	buildings.push_back(Building(2 * w, 1 * h * globals::tileOffsetMultY, "Building"));
+
+	for (auto& building : buildings) {
+		building.currentAnim = &building.animations.at(AnimationType::idle);
+	}
 }
 
 
@@ -54,13 +61,17 @@ void GameState::update(int elapsed)
 {
 	for (auto& column : tiles) {
 		for (auto& tile : column) {
-			tile.occupyingActor = nullptr;
+			tile.occupyingObject = nullptr;
 			tile.updateAnimation(elapsed);
 		}
 	}
 
+	for (auto& building : buildings) {
+		tiles[building.getIndex().x][building.getIndex().y].occupyingObject = &building;
+	}
+
 	for (auto& actor : actors) {
 		actor.update(elapsed);
-		tiles[actor.getIndex().x][actor.getIndex().y].occupyingActor = &actor;
+		tiles[actor.getIndex().x][actor.getIndex().y].occupyingObject = &actor;
 	}
 }

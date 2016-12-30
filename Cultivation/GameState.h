@@ -4,6 +4,7 @@
 #include <vector>
 #include "Tile.h"
 #include "Actor.h"
+#include "Building.h"
 
 // singleton
 class GameState
@@ -22,6 +23,7 @@ public:
 
 	std::vector<std::vector<Tile>> tiles;
 	std::vector<Actor> actors;
+	std::vector<Building> buildings;
 
 private:
 	GameState();

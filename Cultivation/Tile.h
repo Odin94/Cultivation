@@ -15,7 +15,7 @@ public:
 	TileTypes::Type type;
 
 	std::vector<Tile*> neighbours;
-	Actor* occupyingActor = nullptr;
+	GameObject* occupyingObject = nullptr;
 
 	void findNeighbours(std::vector<std::vector<Tile>>& tiles);
 	int getCost();
