@@ -109,17 +109,12 @@ bool Interface::LMBReleased()
 void Interface::draw()
 {
 	window->clear();
-	int i = 0;
-	int j = 0;
 
 	for (const auto& tileColumn : gamestate.tiles) {
 		for (const auto& tile : tileColumn) {
 			tile.draw(window, sf::Vector2f(tile.pos.x - camera.offset.x, tile.pos.y - camera.offset.y));
 			if (tile.highlighted) drawAtWithCameraOffset(ResourceManager::getInstance().sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
-			j++;
 		}
-		j = 0;
-		i++;
 	}
 
 	for (const auto& actor : gamestate.actors) {

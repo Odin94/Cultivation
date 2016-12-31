@@ -49,7 +49,8 @@ GameState::GameState()
 	}
 
 	// create a building
-	buildings.push_back(Building(2 * w, 1 * h * globals::tileOffsetMultY, "Building"));
+	Building b(2 * w, 1 * h * globals::tileOffsetMultY, "Building");
+	buildings.push_back(std::move(b));
 
 	for (auto& building : buildings) {
 		building.currentAnim = &building.animations.at(AnimationType::idle);
