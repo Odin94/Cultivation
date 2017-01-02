@@ -69,7 +69,6 @@ void Interface::handleMouse() {
 			for (auto& tile : tileColumn) {
 				if (isMouseOver(tile)) {
 					std::cout << tile.getIndex() << "\n";
-					std::cout << tile.currentAnim->spriteName << "\n";
 					
 					for (auto neighbour : tile.neighbours) {
 						neighbour->highlighted = true;
@@ -110,21 +109,21 @@ void Interface::draw()
 {
 	window->clear();
 
-	for (const auto& tileColumn : gamestate.tiles) {
-		for (const auto& tile : tileColumn) {
+	for (auto& tileColumn : gamestate.tiles) {
+		for (auto& tile : tileColumn) {
 			tile.draw(window, sf::Vector2f(tile.pos.x - camera.offset.x, tile.pos.y - camera.offset.y));
 			if (tile.highlighted) drawAtWithCameraOffset(ResourceManager::getInstance().sprites["HexagonHighlighted"], tile.pos.x, tile.pos.y);
 		}
 	}
 
-	for (const auto& actor : gamestate.actors) {
+	for (auto& actor : gamestate.actors) {
 		actor.draw(window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
 		if (&actor == selectedActor) {
 			drawAtWithCameraOffset(ResourceManager::getInstance().sprites["SelectionCircle"], actor.pos.x, actor.pos.y);
 		}
 	}
 
-	for (const auto& building : gamestate.buildings) {
+	for (auto& building : gamestate.buildings) {
 		building.draw(window, sf::Vector2f(building.pos.x - camera.offset.x, building.pos.y - camera.offset.y));
 	}
 

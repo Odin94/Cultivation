@@ -44,17 +44,17 @@ void Actor::update(int elapsed)
 void Actor::updateAnimation(int elapsed)
 {
 	// if not moving and not in idle anim, reset current anim and set anim to idle
-	if (currentAnim != &animations.at(AnimationType::idle) && pos == tar && tarPath.empty()) {
-		currentAnim->reset();
-		currentAnim = &animations.at(AnimationType::idle);
+	if (currentAnim != AnimationType::idle && pos == tar && tarPath.empty()) {
+		animations.at(currentAnim).reset();
+		currentAnim = AnimationType::idle;
 	}
 	// if moving and not in moving anim
-	else if (currentAnim != &animations.at(AnimationType::moving)) {
-		currentAnim->reset();
-		currentAnim = &animations.at(AnimationType::moving);
+	else if (currentAnim != AnimationType::moving) {
+		animations.at(currentAnim).reset();
+		currentAnim = AnimationType::moving;
 	}
 	
-	currentAnim->update(elapsed);
+	animations.at(currentAnim).update(elapsed);
 }
 
 

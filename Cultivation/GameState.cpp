@@ -39,7 +39,7 @@ GameState::GameState()
 	for (auto& tileRow : tiles) {
 		for (auto& tile : tileRow) {
 			tile.findNeighbours(tiles);
-			tile.currentAnim = &tile.animations.at(AnimationType::idle);  // if we don't do this tile animations are set to "Hexagon" in cases where Hexagon isn't even in their animations map :x
+			//tile.currentAnim = &tile.animations.at(AnimationType::idle);  // if we don't do this tile animations are set to "Hexagon" in cases where Hexagon isn't even in their animations map :x
 		}
 	}
 
@@ -53,7 +53,7 @@ GameState::GameState()
 	buildings.push_back(std::move(b));
 
 	for (auto& building : buildings) {
-		building.currentAnim = &building.animations.at(AnimationType::idle);
+		//building.currentAnim = &building.animations.at(AnimationType::idle);
 	}
 }
 
