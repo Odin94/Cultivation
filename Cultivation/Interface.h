@@ -4,7 +4,7 @@
 #include "GameState.h"
 #include "ResourceManager.h"
 #include "Vec2d.h"
-
+#include "Ability.h"
 
 class Interface
 {
@@ -24,7 +24,8 @@ private:
 	sf::RenderWindow* window;
 	GameState& gamestate = GameState::getInstance();
 
-	Actor* selectedActor = nullptr;
+	GameObject* selectedObject = nullptr;
+	Ability* selectedAbility = nullptr;
 
 	bool LMBwasPressedLastFrame = false;
 	bool RMBwasPressedLastFrame = false;
@@ -33,7 +34,7 @@ private:
 	
 	void drawAtWithCameraOffset(sf::Sprite& sprite, double x, double y);
 
-	bool isMouseOver(Actor& actor);
-	bool isMouseOver(Tile& tile);
+	bool isMouseOver(GameObject& obj);
+	Vec2d getMousePosIndex();
 };
 

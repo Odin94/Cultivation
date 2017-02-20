@@ -4,6 +4,8 @@
 #include "Utils.h"
 #include "TileTypes.h"
 
+// KEEP IN MIND: If actors/buildings gets reallocated, selectedObject* is no longer valid!!
+
 
 Interface::Interface(sf::RenderWindow* window) : window(window) {}
 Interface::~Interface() {}
@@ -35,26 +37,60 @@ void Interface::handleKeyboard(int elapsed)
 	{
 		camera.moveBy(0, camera.speed * elapsed);
 	}
+
+	//Abilities
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+	{
+		if (selectedObject) {
+			std::cout << selectedObject->getIndex();
+			selectedAbility = selectedObject->firstAbility;
+		}
+	}
 }
 
 
 void Interface::handleMouse() {
 	if (LMBReleased()) {
-		for (auto& actor : gamestate.actors) {
-			if (isMouseOver(actor)) {
-				selectedActor = &actor;
-				break;
+
+		// casting an ability
+		if (selectedAbility) {
+			Vec2d targetIndex = getMousePosIndex();
+
+			if (selectedAbility->range >= utils::getHexDistance(selectedObject->getIndex(), targetIndex)) {
+				selectedAbility->execute(targetIndex, gamestate.actors, gamestate.buildings);
+				selectedAbility = nullptr;
+			}
+			else {
+				// target out of range, play an error sound or something?
+			}
+		}
+
+		// not casting an ability, select things
+		else {
+			for (auto& actor : gamestate.actors) {
+				if (isMouseOver(actor)) {
+					selectedObject = &actor;
+					break;
+				}
+			}
+			for (auto& building : gamestate.buildings) {
+				if (isMouseOver(building)) {
+					selectedObject = &building;
+					break;
+				}
 			}
 		}
 	}
 
 	// TODO: calculate tile from mouse-pos instead of checking for every tile for improved efficiency if necessary
 	if (RMBReleased()) {
-		if (selectedActor != nullptr) {
+		selectedAbility = nullptr;
+
+		if (selectedObject != nullptr) {
 			for (auto& tileColumn : gamestate.tiles) {
 				for (auto& tile : tileColumn) {
 					if (isMouseOver(tile)) {
-						selectedActor->findPathAndMoveTo(tile);
+						selectedObject->RMBAction(tile);
 						break;
 					}
 				}
@@ -69,7 +105,7 @@ void Interface::handleMouse() {
 			for (auto& tile : tileColumn) {
 				if (isMouseOver(tile)) {
 					std::cout << tile.getIndex() << "\n";
-					
+
 					for (auto neighbour : tile.neighbours) {
 						neighbour->highlighted = true;
 					}
@@ -118,13 +154,16 @@ void Interface::draw()
 
 	for (auto& actor : gamestate.actors) {
 		actor.draw(window, sf::Vector2f(actor.pos.x - camera.offset.x, actor.pos.y - camera.offset.y));
-		if (&actor == selectedActor) {
+		if (&actor == selectedObject) {
 			drawAtWithCameraOffset(ResourceManager::getInstance().sprites["SelectionCircle"], actor.pos.x, actor.pos.y);
 		}
 	}
 
 	for (auto& building : gamestate.buildings) {
 		building.draw(window, sf::Vector2f(building.pos.x - camera.offset.x, building.pos.y - camera.offset.y));
+		if (&building == selectedObject) {
+			drawAtWithCameraOffset(ResourceManager::getInstance().sprites["SelectionCircle"], building.pos.x, building.pos.y);
+		}
 	}
 
 	window->display();
@@ -139,17 +178,16 @@ void Interface::drawAtWithCameraOffset(sf::Sprite& sprite, double x, double y)
 
 
 
-bool Interface::isMouseOver(Actor& actor)
+bool Interface::isMouseOver(GameObject& obj)
 {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return utils::isPointOverCircle(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, actor.pos.x + actor.w / 2, actor.pos.y + actor.h / 2, actor.w / 2);
+	return utils::isPointOverCircle(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, obj.pos.x + obj.w / 2, obj.pos.y + obj.h / 2, obj.w / 2);
 }
 
-
-bool Interface::isMouseOver(Tile& tile)
-{
+Vec2d Interface::getMousePosIndex() {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return utils::isPointOverCircle(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, tile.pos.x + tile.w/2, tile.pos.y + tile.h/2, tile.w / 2); // assumes tile.w == tile.h
+	return utils::getIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y);
 }
+
 
 

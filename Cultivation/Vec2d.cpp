@@ -2,6 +2,10 @@
 #include "Vec2d.h"
 #include <math.h>
 
+Vec2d::Vec2d()
+{
+}
+
 Vec2d::Vec2d(double x, double y) : x(x), y(y) {}
 Vec2d::Vec2d(sf::Vector2i sfVec) : x(sfVec.x), y(sfVec.y) {};
 

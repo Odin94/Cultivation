@@ -6,6 +6,7 @@
 class Vec2d
 {
 public:
+	Vec2d();
 	Vec2d(double x, double y);
 	Vec2d::Vec2d(sf::Vector2i sfVec);
 	~Vec2d();

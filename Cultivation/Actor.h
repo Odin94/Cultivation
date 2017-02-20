@@ -2,12 +2,13 @@
 #include "Tile.h"
 #include "GameObject.h"
 #include <deque>
+#include <memory>
 
 
 class Actor: public GameObject
 {
 public:
-	Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName);
+	Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName, Ability* firstAbility = nullptr);
 	~Actor();
 
 	Vec2d tar;
@@ -16,7 +17,9 @@ public:
 
 	std::deque<Tile*> tarPath;
 
-	void findPathAndMoveTo(Tile& tile);
+	void RMBAction(GameObject& object) override;
+
+	void findPathAndMoveTo(GameObject& object);
 	void moveTo(Tile& tile);
 	void update(int elapsed);
 

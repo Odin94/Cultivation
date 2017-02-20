@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Globals.h"
 #include "TileTypes.h"
+#include "SpawnEffect.h"
+#include "AbilityEffect.h"
 
 GameState::GameState()
 {
@@ -48,7 +50,8 @@ GameState::GameState()
 	}
 
 	// create a building
-	Building b(2 * w + w * globals::tileOffsetMultX, 1 * h * globals::tileOffsetMultY, "Building");
+	Actor* actorToSpawn = new Actor(0, 0, "Actor", "Actor"); // maybe just let the effect generate a new actor and pass its type when there are several kinds?
+	Building b(2 * w + w * globals::tileOffsetMultX, 1 * h * globals::tileOffsetMultY, "Building", new Ability(true, 0, 0, 2, new SpawnEffect(actorToSpawn)));  // pretty sure ability here memory leaks! Switch to using a map & keys asap
 	buildings.push_back(std::move(b));
 
 	for (auto& building : buildings) {

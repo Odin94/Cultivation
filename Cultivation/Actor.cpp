@@ -4,14 +4,19 @@
 #include "Utils.h"
 #include "GameState.h"
 
-Actor::Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName): GameObject(x, y, globals::actorWidth, globals::actorHeight, Animation(animIdleSpriteName, 1, globals::actorWidth, globals::actorHeight)), tar(Vec2d(x, y)) {
+Actor::Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName, Ability* firstAbility): GameObject(x, y, globals::actorWidth, globals::actorHeight, Animation(animIdleSpriteName, 1, globals::actorWidth, globals::actorHeight), std::move(firstAbility)), tar(Vec2d(x, y)) {
 	animations.emplace(std::make_pair(AnimationType::moving, Animation(animRunningSpriteName, 3, w, h)));
 }
 Actor::~Actor() {}
 
-void Actor::findPathAndMoveTo(Tile & tile)
+void Actor::RMBAction(GameObject& object)
 {
-	tarPath = utils::findPath(getIndex(), tile.getIndex(), GameState::getInstance().tiles);
+	findPathAndMoveTo(object);
+}
+
+void Actor::findPathAndMoveTo(GameObject& object)
+{
+	tarPath = utils::findPath(getIndex(), object.getIndex(), GameState::getInstance().tiles);
 }
 
 void Actor::moveTo(Tile& tile)

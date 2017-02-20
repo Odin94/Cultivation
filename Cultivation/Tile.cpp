@@ -3,9 +3,13 @@
 #include "Globals.h"
 
 
-Tile::Tile(int x, int y, TileTypes::Type type, int animFrames) : GameObject(x, y, globals::tileWidth, globals::tileHeight, Animation(TileTypes::spriteNames.at(type), animFrames, globals::tileWidth, globals::tileHeight)), type(type) {}
+Tile::Tile(int x, int y, TileTypes::Type type, int animFrames) : GameObject(x, y, globals::tileWidth, globals::tileHeight, Animation(TileTypes::spriteNames.at(type), animFrames, globals::tileWidth, globals::tileHeight), nullptr), type(type) {}
 Tile::~Tile() {}
 
+
+void Tile::RMBAction(GameObject & obj)
+{
+}
 
 void Tile::findNeighbours(std::vector<std::vector<Tile>>& tiles)
 {

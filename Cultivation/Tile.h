@@ -3,8 +3,6 @@
 #include <vector>
 #include "TileTypes.h"
 
-class Actor;
-
 class Tile: public GameObject
 {
 public:
@@ -16,6 +14,8 @@ public:
 
 	std::vector<Tile*> neighbours;
 	GameObject* occupyingObject = nullptr;
+
+	void RMBAction(GameObject& obj) override;
 
 	void findNeighbours(std::vector<std::vector<Tile>>& tiles);
 	int getCost();
