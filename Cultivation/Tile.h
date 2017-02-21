@@ -21,6 +21,8 @@ public:
 	int getCost();
 	bool isPassable();
 
+	Vec2d getCenter();
+
 };
 
 std::ostream& operator<<(std::ostream &strm, const Tile &tile);

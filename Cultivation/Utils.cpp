@@ -31,8 +31,8 @@ namespace utils {
 	}
 
 	int getHexDistanceIndex(Vec2d v1, Vec2d v2) {
-		v1 = getIndex(v1);
-		v2 = getIndex(v2);
+		v1 = getApproximateIndex(v1);
+		v2 = getApproximateIndex(v2);
 
 		int x1 = v1.x - floor(v1.y / 2);
 		int y1 = v1.y;
@@ -44,8 +44,8 @@ namespace utils {
 		return std::max(maxDist, abs(dx + dy));
 	}
 
-	Vec2d getIndex(double x, double y) {
-		
+	Vec2d getApproximateIndex(double x, double y) {
+
 		// round x & y down to multiples of tileWidth (or Height) because un-rounded values give wrong results
 		double remainderX = (int)x % globals::tileWidth;
 		x -= remainderX;
@@ -56,9 +56,45 @@ namespace utils {
 		return Vec2d(int(x / globals::tileWidth), round(y / globals::tileHeight / globals::tileOffsetMultY));
 	}
 
-	Vec2d getIndex(Vec2d pos) {
-		return getIndex(pos.x, pos.y);
+	Vec2d getApproximateIndex(Vec2d pos) {
+		return getApproximateIndex(pos.x, pos.y);
 	}
+
+	Vec2d getAccurateIndex(Vec2d pos, std::vector<std::vector<Tile>>& map) {
+		Vec2d approxIndex = getApproximateIndex(pos);
+		Tile* approxTile = &map[approxIndex.x][approxIndex.y];
+
+		double distance = abs(approxTile->getCenter().getDistance(pos));
+		Tile* closestTile = approxTile;
+
+		for (const auto& neighbour : approxTile->neighbours) {
+			double neighbourDistance = abs(neighbour->getCenter().getDistance(pos));
+			if (neighbourDistance < distance) {
+				distance = neighbourDistance;
+				closestTile = neighbour;
+			}
+		}
+
+		return getApproximateIndex(closestTile->pos);
+	}
+
+	Vec2d getAccurateIndex(double x, double y, std::vector<std::vector<Tile>>& map) {
+		return getAccurateIndex(Vec2d(x, y), map);
+	}
+
+	Vec2d indexToPixels(Vec2d index) {
+		Vec2d inflated;
+		inflated.x = index.x * globals::tileWidth;
+		inflated.y = index.y * globals::tileHeight * globals::tileOffsetMultY;
+
+		if ((int)index.y % 2 == 1) {
+			inflated.x += globals::tileWidth * globals::tileOffsetMultX;
+		}
+
+		return inflated;
+	}
+
+
 
 	class Node {
 	public:

@@ -11,6 +11,12 @@ namespace utils {
 
 	int getHexDistance(Vec2d v1, Vec2d v2);
 	int getHexDistanceIndex(Vec2d v1, Vec2d v2);
-	Vec2d getIndex(Vec2d pos);
-	Vec2d getIndex(double x, double y);
+	
+	Vec2d getApproximateIndex(Vec2d pos);
+	Vec2d getApproximateIndex(double x, double y);
+	
+	Vec2d indexToPixels(Vec2d index);
+
+	Vec2d getAccurateIndex(Vec2d pos, std::vector<std::vector<Tile>>& map);
+	Vec2d getAccurateIndex(double x, double y, std::vector<std::vector<Tile>>& map);
 }

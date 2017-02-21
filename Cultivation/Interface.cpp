@@ -42,7 +42,6 @@ void Interface::handleKeyboard(int elapsed)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
 	{
 		if (selectedObject) {
-			std::cout << selectedObject->getIndex();
 			selectedAbility = selectedObject->firstAbility;
 		}
 	}
@@ -57,6 +56,8 @@ void Interface::handleMouse() {
 			Vec2d targetIndex = getMousePosIndex();
 
 			if (selectedAbility->range >= utils::getHexDistance(selectedObject->getIndex(), targetIndex)) {
+				std::cout << targetIndex;
+				std::cout << sf::Mouse::getPosition(*window) << "\n";
 				selectedAbility->execute(targetIndex, gamestate.actors, gamestate.buildings);
 				selectedAbility = nullptr;
 			}
@@ -186,7 +187,7 @@ bool Interface::isMouseOver(GameObject& obj)
 
 Vec2d Interface::getMousePosIndex() {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return utils::getIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y);
+	return utils::getAccurateIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, gamestate.tiles);//utils::getIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y);
 }
 
 

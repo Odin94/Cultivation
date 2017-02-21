@@ -45,6 +45,11 @@ bool Tile::isPassable()
 	return (TileTypes::passable.at(type) && (occupyingObject == nullptr));
 }
 
+Vec2d Tile::getCenter()
+{
+	return Vec2d(pos.x + globals::tileWidth / 2, pos.y + globals::tileWidth / 2);
+}
+
 std::ostream& operator<<(std::ostream &strm, const Tile &tile) {
 	Vec2d tilePos(int(tile.pos.x / tile.w), round(tile.pos.y / tile.h / globals::tileOffsetMultY));
 	return strm << "TilePos: " << tilePos.x << ", " << tilePos.y;
