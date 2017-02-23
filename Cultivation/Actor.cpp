@@ -4,7 +4,7 @@
 #include "Utils.h"
 #include "GameState.h"
 
-Actor::Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName, Ability* firstAbility): GameObject(x, y, globals::actorWidth, globals::actorHeight, Animation(animIdleSpriteName, 1, globals::actorWidth, globals::actorHeight), std::move(firstAbility)), tar(Vec2d(x, y)) {
+Actor::Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName, Ability* firstAbility, int team): GameObject(x, y, globals::actorWidth, globals::actorHeight, Animation(animIdleSpriteName, 1, globals::actorWidth, globals::actorHeight), std::move(firstAbility), team), tar(Vec2d(x, y)) {
 	animations.emplace(std::make_pair(AnimationType::moving, Animation(animRunningSpriteName, 3, w, h)));
 }
 Actor::~Actor() {}

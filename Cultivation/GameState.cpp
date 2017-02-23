@@ -46,7 +46,11 @@ GameState::GameState()
 
 	// create some actors
 	for (int i = 0; i < 5; i++) {
-		actors.push_back(Actor(i * w, 0, "Actor", "Actor"));
+		// team 1
+		actors.push_back(Actor(i * w, 0, "Actor", "Actor", nullptr, 1));
+
+		// team 2
+		actors.push_back(Actor(i * w + w * globals::tileOffsetMultX, h * 5 * globals::tileOffsetMultY, "Actor", "Actor", nullptr, 2));
 	}
 
 	// create a building

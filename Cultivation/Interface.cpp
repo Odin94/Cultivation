@@ -87,7 +87,7 @@ void Interface::handleMouse() {
 	if (RMBReleased()) {
 		selectedAbility = nullptr;
 
-		if (selectedObject != nullptr) {
+		if (selectedObject != nullptr && selectedObject->team == 1) {
 			for (auto& tileColumn : gamestate.tiles) {
 				for (auto& tile : tileColumn) {
 					if (isMouseOver(tile)) {
@@ -187,7 +187,7 @@ bool Interface::isMouseOver(GameObject& obj)
 
 Vec2d Interface::getMousePosIndex() {
 	sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
-	return utils::getAccurateIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, gamestate.tiles);//utils::getIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y);
+	return utils::getAccurateIndex(mousePos.x + camera.offset.x, mousePos.y + camera.offset.y, gamestate.tiles);
 }
 
 

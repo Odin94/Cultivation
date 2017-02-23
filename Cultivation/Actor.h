@@ -8,7 +8,7 @@
 class Actor: public GameObject
 {
 public:
-	Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName, Ability* firstAbility = nullptr);
+	Actor(double x, double y, std::string animIdleSpriteName, std::string animRunningSpriteName, Ability* firstAbility = nullptr, int team = 1);
 	~Actor();
 
 	Vec2d tar;
