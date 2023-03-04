@@ -1,7 +1,11 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-const enum class AnimationType { idle, moving };
+enum class AnimationType
+{
+	idle,
+	moving
+};
 
 class Animation
 {
@@ -10,10 +14,10 @@ public:
 	~Animation();
 
 	std::string spriteName;
-	sf::Sprite& sprite;
+	sf::Sprite &sprite;
 
 	void update(int elapsed);
-	void draw(sf::RenderWindow* window, sf::Vector2f pos);
+	void draw(sf::RenderWindow *window, sf::Vector2f pos);
 	void reset();
 	void pause();
 	void resume();
@@ -24,4 +28,4 @@ private:
 	bool paused = false;
 };
 
-std::ostream& operator<<(std::ostream &strm, const Animation &anim);
+std::ostream &operator<<(std::ostream &strm, const Animation &anim);
