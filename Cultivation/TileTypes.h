@@ -1,5 +1,6 @@
 #pragma once
 #include <map> // TODO: replace with unordered_map and provide std::hash for enum class Type for better performance (probably no noticeable difference though)
+#include <string>
 
 // TODO: load all this from a datafile?
 namespace TileTypes

@@ -7,7 +7,7 @@ These instructions are made for building on Windows 11. They likely work on othe
 
 Unpack the 64bit version (has to match your mingw installation) of the following dependencies into `C:\mingw_dev_lib`
 
-* SFML 2 (https://www.sfml-dev.org/download/sfml/2.5.1/ GCC 7.3.0 MinGW (SEH) - 64-bit)
+* SFML 2 (https://www.sfml-dev.org/download/sfml/2.5.1/ - get the version that matches your compiler! For g++ you may need to build SFML yourself..?))
 
 * Add `C:\mingw_dev_lib\bin` to your path! (otherwise the .exe won't run!)
 

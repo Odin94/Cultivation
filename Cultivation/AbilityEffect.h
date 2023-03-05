@@ -12,5 +12,5 @@ public:
 	AbilityEffect();
 	~AbilityEffect();
 
-	virtual void execute(Vec2d target, std::vector<Actor>& actors, std::vector<Building>& buildings) = 0;
+	virtual void execute(Vec2d target, std::vector<Actor> &actors, std::vector<Building> &buildings) = 0;
 };

@@ -1,9 +1,9 @@
 #pragma once
-#include "Tile.h"
 #include "Ability.h"
 #include "Animation.h"
 #include <deque>
 #include <memory>
+#include <vector>
 
 class GameObject
 {
@@ -12,9 +12,17 @@ public:
     ~GameObject();
 
     virtual void RMBAction(GameObject &obj);
+    virtual void updateAnimation(int elapsed);
+    void draw(sf::RenderWindow *window, sf::Vector2f pos);
     Vec2d getIndex();
 
     Vec2d pos;
-    int w;
-    int h;
+    int x, y, w, h;
+
+    int team;
+
+    std::map<AnimationType, Animation> animations;
+    AnimationType currentAnim;
+
+    Ability *firstAbility;
 };

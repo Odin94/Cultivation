@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = Actor.cpp Animation.cpp Camera.cpp Cultivation.cpp GameState.cpp Interface.cpp ResourceManager.cpp Tile.cpp Utils.cpp Vec2d.cpp
+OBJS = Animation.cpp GameObject.cpp Actor.cpp Camera.cpp Interface.cpp ResourceManager.cpp Tile.cpp Utils.cpp Vec2d.cpp Building.cpp Ability.cpp AbilityEffect.cpp SpawnEffect.cpp GameState.cpp Cultivation.cpp
 
 #CC specifies which compiler we're using
 CC = g++
